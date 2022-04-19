@@ -19,7 +19,7 @@ public class Calculator {
             int b = Integer.parseInt(value[i+1]);
             int result = 0;
             if ("+".equals(value[i])) {
-                plus(a, b);
+                plus(a, b); //
             }
 
             if ("-".equals(value[i])) {

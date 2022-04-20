@@ -1,6 +1,8 @@
 package study;
 
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Scanner;
 
 public class Calculator {
@@ -10,33 +12,40 @@ public class Calculator {
         String values = scanner.nextLine();
         String[] value = values.split(" ");
 
-
-
-
-
-        for (int i = 1; i < value.length; i++) {
-            int a = Integer.parseInt(value[i-1]);
-            int b = Integer.parseInt(value[i+1]);
-            int result = 0;
-            if ("+".equals(value[i])) {
-                plus(a, b); //
-            }
-
-            if ("-".equals(value[i])) {
-                minus(a, b);
-            }
-
-            if ("*".equals(value[i])) {
-                multi(a, b);
-            }
-
-            if ("/".equals(value[i])) {
-                div(a, b);
-            }
-
+        Deque<String> deque = new ArrayDeque<>();
+        for (int i = 0; i < value.length; i++) {
+            deque.add(value[i]);
         }
 
+        while (deque.size() != 1) {
+            if(deque.size()<3){
+                break;
+            }
+
+            int a = Integer.parseInt(deque.removeFirst());
+            String operation = deque.removeFirst();
+            int b = Integer.parseInt(deque.removeFirst());
+
+
+            int result  =0;
+
+            if ("+".equals(operation)) {
+                result = plus(a,b);
+            } else if ("-".equals(operation)) {
+                result = minus(a,b);
+            } else if ("*".equals(operation)) {
+                result = multi(a,b);
+            } else {
+                result = div(a,b);
+            }
+
+            deque.addFirst(String.valueOf(result));
+        }
+
+        System.out.println("result = " + deque.getFirst());
+
     }
+
 
     public static int div(int a, int b) {
         return a/b;

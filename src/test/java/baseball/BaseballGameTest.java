@@ -67,16 +67,35 @@ class BaseballGameTest {
         assertThat(result).isEqualTo("1볼 1스트라이크");
     }
 
+// 이렇게 생각해서 구현하려고 보니 printAndCheck가 낫다.
+//    //3 스트라이크 이면 종료 또는 계속 선택, 아니면 강제 계속
+//    @DisplayName("3 스트라이크일 경우 게임 종료 또는 재시작 할 수 있는 플래그가 잘 나오는지")
+//    @ParameterizedTest
+//    @CsvSource(value = {"1:true","2:false"}, delimiterString = ":")
+//    void stopOrContinueTest(String input, boolean isContinue) {
+//        //given
+//        String result = "3 스트라이크";
+//
+//        //when
+//        boolean flag = stopOrContinue(result, input);
+//
+//        //then
+//        assertThat(flag).isEqualTo(isContinue);
+//    }
 
     //3 스트라이크 이면 종료 또는 계속 선택, 아니면 강제 계속
-    @DisplayName("3 스트라이크일 경우 게임 종료 또는 재시작 할 지 선택이 잘 되는 지")
+    @DisplayName("인풋에 따라 게임 종료 또는 재시작 할 수 있는 플래그가 잘 나오는지")
     @ParameterizedTest
-    @CsvSource(value = {":1","145:1","671:2","216:0","713:0"}, delimiterString = ":")
-    void stopOrContinueTest() {
-        String result = "3 스트라이크";
-//        boolean flag = stopOrContinue(result);
-//        String result = print(strikeCount, ballCount);
-        assertThat(result).isEqualTo("1볼 1스트라이크");
+    @CsvSource(value = {"3 스트라이크:1:true","3 스트라이크:2:false","1볼::false"}, delimiterString = ":")
+    void stopOrContinueTest(String result, String input, boolean isContinue) {
+
+        //when
+        boolean flag = printAndCheck(result);
+
+        // 인풋을 모킹할 수 있나..? .. 메소드를 입력과 체킹을 분리하는 게 맞는 거 같기도..
+
+        //then
+        assertThat(flag).isEqualTo(isContinue);
     }
 
 

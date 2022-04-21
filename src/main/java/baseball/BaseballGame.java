@@ -5,28 +5,64 @@ import java.util.Scanner;
 
 public class BaseballGame {
 
+    public static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
         Random random = new Random();
-        String answer = String.valueOf(random.nextInt());
 
-        Scanner scanner = new Scanner(System.in);
+        //여기도 메소드로 따로 뺐어야 했네.
+        String one = String.valueOf(random.nextInt(9));
+        while (one.equals("0")) {
+            one = String.valueOf(random.nextInt(9));
+        }
+
+        String two = String.valueOf(random.nextInt(9));
+        while (one.equals(two) || two.equals("0")) {
+            two = String.valueOf(random.nextInt(9));
+        }
+        String three = String.valueOf(random.nextInt(9));
+
+        while (one.equals(three) || two.equals(three) || three.equals("0")) {
+            three = String.valueOf(random.nextInt(9));
+        }
+
+
+        String answer = one + two + three;
+        System.out.println("answer = " + answer);
+
+
 
         int strikeCount = 0;
         int ballCount = 0;
+        boolean isContinue = true;
+
         String result;
 
-        while (true) {
+        while (isContinue) {
             System.out.println("숫자를 입력하시오: ");
             String input = scanner.nextLine();
 
             strikeCount = strike(answer, input);
             ballCount = ball(answer, input);
             result = print(strikeCount, ballCount);
-
-            System.out.println(result);
-
-
+            isContinue = printAndCheck(result);
         }
+    }
+
+    public static boolean printAndCheck(String result) {
+        System.out.println("result = " + result);
+        if (!"3스트라이크".equals(result)) {
+            return true;
+        }
+
+        System.out.println("3개의 숫자를 모두 맞히셨습니다! 게임 종료");
+        System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요");
+        String input = scanner.nextLine();
+
+        if("1".equals(input)) {
+            return true;
+        }
+
+        return false;
     }
 
     public static int strike(String result, String input) {
